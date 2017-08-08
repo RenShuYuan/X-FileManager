@@ -42,12 +42,15 @@ Dialog::~Dialog()
 void Dialog::initDialog()
 {
     ui->tabWidget->setTabText(0, "拷贝文件夹");
-    ui->tabWidget->setTabText(1, "替换文件");
+    ui->tabWidget->setTabText(1, "拷贝文件");
+    ui->tabWidget->setTabText(2, "替换文件");
     ui->tabWidget->setCurrentIndex(0);
 
-//    ui->groupBox_5->setVisible(false);
-//    ui->verticalLayout_8->setSizeConstraint(QLayout::SetFixedSize);
-//    this->resize(ui->verticalLayout_8->sizeHint());
+    ui->lineEdit_5->setEnabled(false);
+    ui->lineEdit_6->setEnabled(false);
+    ui->lineEdit_7->setEnabled(false);
+    ui->spinBox->setEnabled(false);
+    ui->spinBox_2->setEnabled(false);
 }
 
 void Dialog::StyleSheet()
@@ -81,7 +84,7 @@ void Dialog::resolveFilterFile()
     {
         QString line = in.readLine();
         filters.append(line);
-        ui->listWidget->addItem( ui->lineEdit->text() + "\\" + line.toLocal8Bit().data() );
+        ui->listWidget->addItem( line );
     }
     file.close();
 }
@@ -141,11 +144,31 @@ void Dialog::on_pushButton_3_clicked()
     if (ui->tabWidget->currentIndex()==0)
     {
         // 执行文件夹拷贝
-        dialog->processCopyFolder(str_lineEdit, str_lineEdit2, filters, ui->checkBox->isChecked());
+        dialog->processCopyFolder(str_lineEdit,
+                                  str_lineEdit2,
+                                  filters,
+                                  ui->lineEdit_4->text(),
+                                  ui->checkBox->isChecked());
     }
     else if (ui->tabWidget->currentIndex()==1)
     {
+        // 执行文件拷贝
+        dialog->processCopyFlies(str_lineEdit,
+                                 str_lineEdit2,
+                                 filters,
+                                 ui->checkBox->isChecked(),
+                                 ui->groupBox_8->isChecked(),
+                                 ui->checkBox_6->isChecked(),
+                                 ui->checkBox_10->isChecked(), ui->lineEdit_5->text(),
+                                 ui->checkBox_11->isChecked(), ui->spinBox->value(), ui->spinBox_2->value(),
+                                 ui->checkBox_12->isChecked(), ui->lineEdit_6->text(), ui->lineEdit_7->text());
+    }
+    else if (ui->tabWidget->currentIndex()==2)
+    {
         // 执行文件替换
+        dialog->processReplaceFile(str_lineEdit, str_lineEdit2,
+                                   ui->checkBox_4->isChecked() ? Qt::CaseInsensitive : Qt::CaseSensitive,
+                                   ui->checkBox_2->isChecked());
     }
 }
 
@@ -168,15 +191,54 @@ void Dialog::on_pushButton_4_clicked()
 
 void Dialog::on_lineEdit_textChanged(const QString &arg1)
 {
-    resolveFilterFile();
+    if (ui->tabWidget->currentIndex()==0)
+    {
+        // 执行文件夹拷贝
+        resolveFilterFile();
+    }
+    else if (ui->tabWidget->currentIndex()==1)
+    {
+        // 执行文件拷贝
+        resolveFilterFile();
+    }
 }
 
 void Dialog::on_lineEdit_3_textChanged(const QString &arg1)
 {
+    // 执行文件夹拷贝
     resolveFilterFile();
 }
 
 void Dialog::on_checkBox_3_clicked(bool checked)
 {
     isShutdown = checked;
+}
+
+void Dialog::on_tabWidget_currentChanged(int index)
+{
+    if (index == 2)
+    {
+        ui->groupBox_5->setEnabled(false);
+    }
+    else
+    {
+        ui->groupBox_5->setEnabled(true);
+    }
+}
+
+void Dialog::on_checkBox_10_clicked(bool checked)
+{
+    ui->lineEdit_5->setEnabled(checked);
+}
+
+void Dialog::on_checkBox_11_clicked(bool checked)
+{
+    ui->spinBox->setEnabled(checked);
+    ui->spinBox_2->setEnabled(checked);
+}
+
+void Dialog::on_checkBox_12_clicked(bool checked)
+{
+    ui->lineEdit_6->setEnabled(checked);
+    ui->lineEdit_7->setEnabled(checked);
 }

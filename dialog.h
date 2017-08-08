@@ -38,10 +38,19 @@ private slots:
 
     void on_checkBox_3_clicked(bool checked);
 
+    void on_tabWidget_currentChanged(int index);
+
+    void on_checkBox_10_clicked(bool checked);
+
+    void on_checkBox_11_clicked(bool checked);
+
+    void on_checkBox_12_clicked(bool checked);
+
 private:
     void initDialog();
     void StyleSheet();
 
+    // 分析过滤文件, 将结果输出窗口
     void resolveFilterFile();
 
     static Dialog *smInstance;
