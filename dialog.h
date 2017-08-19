@@ -45,6 +45,9 @@ private slots:
     void on_checkBox_11_clicked(bool checked);
 
     void on_checkBox_12_clicked(bool checked);
+    void on_checkBox_6_clicked(bool checked);
+
+    void on_checkBox_13_clicked(bool checked);
 
 private:
     void initDialog();

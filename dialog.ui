@@ -87,7 +87,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -192,6 +192,33 @@
            </layout>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_19">
+            <item>
+             <widget class="QCheckBox" name="checkBox_13">
+              <property name="text">
+               <string>忽略文件夹名中的字符</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_17">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_8"/>
+            </item>
+           </layout>
+          </item>
+          <item>
            <layout class="QHBoxLayout" name="horizontalLayout_17">
             <item>
              <widget class="QCheckBox" name="checkBox_10">
@@ -248,7 +275,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox"/>
+             <widget class="QSpinBox" name="spinBox">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>250</number>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="Line" name="line_2">
@@ -265,7 +299,14 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_2"/>
+             <widget class="QSpinBox" name="spinBox_2">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>250</number>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

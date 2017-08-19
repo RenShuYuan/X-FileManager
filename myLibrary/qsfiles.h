@@ -94,6 +94,16 @@ public:
     void setNotIncludedString(const bool isNotIncludedString, const QString& string);
 
     /**
+    * @brief                            拷贝文件到文件夹中时,是否忽略文件夹中指定字符
+    * @author                           YuanLong
+    * @param isNotIncludedStringF     是或否
+    * @param string                    忽略的字符串，当isNotIncludedStringF
+    *                                   为真时才有用
+    * @return
+    */
+    void setNotIncludedStringF(const bool isNotIncludedStringF, const QString& stringF);
+
+    /**
     * @brief                                拷贝文件到文件夹中时是否按部分文件名处理
     * @author                               YuanLong
     * @param isSubStringCreatFolder      是或否
@@ -250,11 +260,13 @@ private:
     bool    isCopyFilesToFolder;        // 拷贝文件-是否拷贝到文件夹中
     bool    isAutoCreatFolder;          // 拷贝文件-是否自动创建文件夹
     bool    isNotIncludedString;        // 拷贝文件-是否不包含字符创建文件夹
+    bool    isNotIncludedStringF;        // 拷贝文件-是否忽略文件夹中的字符串
     bool    isSubStringCreatFolder;     // 拷贝文件-是否按部分文件名创建文件夹
     bool    isAddString;                // 拷贝文件-是否添加字符创建文件夹
     int     startIndex;                 // 拷贝文件-起始字符为位置
     int     endIndex;                   // 拷贝文件-总字符数
     QString notIncludedString;          // 拷贝文件-不包含的字符
+    QString notIncludedStringF;          // 拷贝文件-忽略的字符
     QString beforeString;               // 拷贝文件-在文件名开头增加的字符
     QString afterString;                // 拷贝文件-在文件名结尾增加的字符
 

@@ -35,7 +35,8 @@ ProcessDialog::~ProcessDialog()
     delete ui;
 }
 
-void ProcessDialog::processCopyFolder(const QString &source, const QString &target, const QStringList &filters, const QString &extList, bool ignoreExisted)
+void ProcessDialog::processCopyFolder(const QString &source, const QString &target,
+                                      const QStringList &filters,const QString &extList, bool ignoreExisted)
 {
     // 实例化对象
     fileCopySpeedCalculates *speed = new fileCopySpeedCalculates();
@@ -83,13 +84,14 @@ void ProcessDialog::processCopyFolder(const QString &source, const QString &targ
 }
 
 void ProcessDialog::processCopyFlies(const QString &source, const QString &target,
-                      const QStringList &filters,
-                      const bool ignoreExisted,
-                      const bool isCopyFilesToFolder,
-                      const bool isAutoCreatFolder,
-                      const bool isNotIncludedString, const QString& notIncludedString,
-                      const bool isSubStringCreatFolder, const int startIndex, const int endIndex,
-                      const bool isAddString, const QString& beforeString, const QString& afterString)
+                                     const QStringList &filters,
+                                     const bool ignoreExisted,
+                                     const bool isCopyFilesToFolder,
+                                     const bool isAutoCreatFolder,
+                                     const bool isNotIncludedString, const QString& notIncludedString,
+                                     const bool isNotIncludedStringF, const QString& notIncludedStringF,
+                                     const bool isSubStringCreatFolder, const int startIndex, const int endIndex,
+                                     const bool isAddString, const QString& beforeString, const QString& afterString)
 {
     // 实例化对象
     fileCopySpeedCalculates *speed = new fileCopySpeedCalculates();
@@ -108,6 +110,7 @@ void ProcessDialog::processCopyFlies(const QString &source, const QString &targe
     mQSFiles->setCopyFilesToFolder(isCopyFilesToFolder);
     mQSFiles->setAutoCreatFolder(isAutoCreatFolder);
     mQSFiles->setNotIncludedString(isNotIncludedString, notIncludedString);
+    mQSFiles->setNotIncludedStringF(isNotIncludedStringF, notIncludedStringF);
     mQSFiles->setSubString(isSubStringCreatFolder, startIndex, endIndex);
     mQSFiles->setAddString(isAddString, beforeString, afterString);
 

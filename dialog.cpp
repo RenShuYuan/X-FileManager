@@ -160,6 +160,7 @@ void Dialog::on_pushButton_3_clicked()
                                  ui->groupBox_8->isChecked(),
                                  ui->checkBox_6->isChecked(),
                                  ui->checkBox_10->isChecked(), ui->lineEdit_5->text(),
+                                 ui->checkBox_13->isChecked(), ui->lineEdit_8->text(),
                                  ui->checkBox_11->isChecked(), ui->spinBox->value(), ui->spinBox_2->value(),
                                  ui->checkBox_12->isChecked(), ui->lineEdit_6->text(), ui->lineEdit_7->text());
     }
@@ -241,4 +242,23 @@ void Dialog::on_checkBox_12_clicked(bool checked)
 {
     ui->lineEdit_6->setEnabled(checked);
     ui->lineEdit_7->setEnabled(checked);
+}
+
+void Dialog::on_checkBox_6_clicked(bool checked)
+{
+    if (checked)
+    {
+        ui->checkBox_13->setEnabled(false);
+        ui->lineEdit_8->setEnabled(false);
+    }
+    else
+    {
+        ui->checkBox_13->setEnabled(true);
+    ui->lineEdit_8->setEnabled(true);
+    }
+}
+
+void Dialog::on_checkBox_13_clicked(bool checked)
+{
+    ui->lineEdit_8->setEnabled(checked);
 }

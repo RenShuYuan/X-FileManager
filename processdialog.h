@@ -43,6 +43,7 @@ public:
                           const bool isCopyFilesToFolder,
                           const bool isAutoCreatFolder,
                           const bool isNotIncludedString, const QString& notIncludedString,
+                          const bool isNotIncludedStringF, const QString &notIncludedStringF,
                           const bool isSubStringCreatFolder, const int startIndex, const int endIndex,
                           const bool isAddString, const QString& beforeString, const QString& afterString);
 

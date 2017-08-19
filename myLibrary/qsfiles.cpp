@@ -88,6 +88,12 @@ void QSFiles::setNotIncludedString(const bool isNotIncludedString, const QString
     notIncludedString = string;
 }
 
+void QSFiles::setNotIncludedStringF(const bool isNotIncludedStringF, const QString &stringF)
+{
+    this->isNotIncludedStringF = isNotIncludedStringF;
+    notIncludedStringF = stringF;
+}
+
 void QSFiles::setSubString(const bool isSubStringCreatFolder, const int startIndex, const int endIndex)
 {
     this->isSubStringCreatFolder = isSubStringCreatFolder;
@@ -570,6 +576,20 @@ void QSFiles::batchCopyFlies()
 
     if (isCopyFilesToFolder)
     {
+        QStringList pathList;
+
+        // 获得目标路径下所有目录名称，不包含子目录
+        QDirIterator iterator(mTarget, QDir::Dirs |
+                              QDir::NoSymLinks |
+                              QDir::NoDotAndDotDot);
+        while (iterator.hasNext())
+        {
+            iterator.next();
+            QFileInfo file_info = iterator.fileInfo();
+            QString relative_file_path = file_info.absoluteFilePath();
+            pathList << QDir(relative_file_path).dirName();
+        }
+
         // 开始拷贝文件
         for (int i = 0; i < files_count; ++i)
         {
@@ -583,42 +603,61 @@ void QSFiles::batchCopyFlies()
 
             emit setLabelText(sourceFileName);
 
-            // 根据规则修改文件夹名称
+            // 根据规则修改文件名
             if (isNotIncludedString) // 不包含字符
             {
                 folderName = folderName.remove(notIncludedString, Qt::CaseInsensitive);
             }
-            else if (isSubStringCreatFolder) // 截取部分文件名
+            if (isSubStringCreatFolder) // 截取部分文件名
             {
-                folderName = folderName.mid(startIndex-1, endIndex-1);
+                folderName = folderName.mid(startIndex-1, endIndex);
             }
-            else if (isAddString) // 在文件名前后增加字段
+            if (isAddString) // 在文件名前后增加字段
             {
                 folderName = beforeString + folderName + afterString;
             }
 
-            targetFile = mTarget + "/" + folderName;
-            if (!QDir(targetFile).exists()) // 检查该路径下文件目录是否存在
+            // 是否需要自动创建文件夹
+            QString targetPath = mTarget + "/" + folderName;
+
+            if (isAutoCreatFolder)
             {
-                if (isAutoCreatFolder) // 自动创建文件夹
+                QDir dir;
+                if (!dir.mkpath( targetPath ))  // 创建文件夹
                 {
-                    QDir dir;
-                    if (!dir.mkpath(targetFile))  // 创建文件夹
+                    emit postMessage(QString("\t%1 : 拷贝失败，目录创建失败 : %2").arg(i+1).arg(targetPath), Qt::red);
+                    emit setValuePd(++prCount);
+                    continue;
+                }
+                targetFile = mTarget + "/" + folderName + "/" + sourceFileName;
+            }
+            else
+            {
+
+                bool isFind = false;
+                foreach (QString str, pathList)
+                {
+                    QString tmp = str;
+                    if ((isAutoCreatFolder==false) && isNotIncludedStringF)
                     {
-                        emit postMessage(QString("\t%1 : 拷贝失败，目录创建失败 : %2").arg(i+1).arg(targetFile), Qt::red);
-                        emit setValuePd(++prCount);
-                        continue;
+                        tmp = tmp.remove(notIncludedStringF, Qt::CaseInsensitive);
+                    }
+                    if (tmp == folderName)
+                    {
+                        targetFile = mTarget + "/" + str + "/" + sourceFileName;
+                        isFind = true;
+                        break;
                     }
                 }
-                else
+                if (!isFind)
                 {
-                    emit postMessage(QString("\t%1 : 拷贝失败，没有对应文件夹 : %2").arg(i+1).arg(targetFile), Qt::red);
+                    emit postMessage(QString("\t%1 : 拷贝失败，没有对应文件夹 : %2").arg(i+1).arg(targetPath), Qt::red);
                     emit setValuePd(++prCount);
                     continue;
                 }
             }
 
-            targetFile = targetFile + "/" + sourceFileName;
+
 
             // 跳过已存在的文件
             if (ignoreExisted)
